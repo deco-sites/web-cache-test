@@ -5,6 +5,7 @@ import productJson from "./product.json" with { type: "json" };
 
 // Define the cache name and the URL for storing JSON
 const CACHE_NAME = "example-cache";
+const cache = await globalThis.caches.open(CACHE_NAME);
 
 async function testCache(request: Request, jsonObject: any) {
   try {
@@ -13,7 +14,6 @@ async function testCache(request: Request, jsonObject: any) {
         "Content-Type": "application/json",
       },
     });
-    const cache = await globalThis.caches.open(CACHE_NAME);
 
     // Put the request-response pair in the cache
     await cache.put(request, response);
@@ -40,6 +40,10 @@ async function testCache(request: Request, jsonObject: any) {
     }
   } catch (error) {
     console.error("Error in cacheExample:", error);
+    const cachedResponse = await cache.match(request); //
+    const matchedText = await cachedResponse?.text();
+    console.log("Length of matchedText: ", matchedText?.length);
+    console.log("matchedText: ", matchedText); //
   }
 }
 
