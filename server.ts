@@ -11,7 +11,7 @@ Deno.serve(async (request: Request) => {
   try {
     const response = new Response(JSON.stringify(jsonObject), {
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
+        "Content-Type": "application/json",
         "Content-Length": JSON.stringify(jsonObject).length.toString(),
       },
     });
