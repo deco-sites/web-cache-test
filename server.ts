@@ -9,9 +9,11 @@ const cache = await globalThis.caches.open(CACHE_NAME);
 
 async function testCache(request: Request, jsonObject: any) {
   try {
-    const response = new Response(JSON.stringify(jsonObject), {
+    const body = new TextEncoder().encode(JSON.stringify(jsonObject));
+    const response = new Response(body, {
       headers: {
         "Content-Type": "application/json",
+        "Content-Length": "" + body.length,
       },
     });
 
@@ -43,7 +45,7 @@ async function testCache(request: Request, jsonObject: any) {
     const cachedResponse = await cache.match(request); //
     const matchedText = await cachedResponse?.text();
     console.log("Length of matchedText: ", matchedText?.length);
-    console.log("matchedText: ", matchedText); //
+    // console.log("matchedText: ", matchedText); //
   }
 }
 
